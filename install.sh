@@ -26,7 +26,7 @@ docker rmi chroot 2>/dev/null
 docker build -t chroot .
 rm -f passwd rootpasswd
 echo -e '\nRunning container:'
-docker run --restart=always -dp 0.0.0.02222:2222 --name chroot chroot
+docker run --restart=always -dp 0.0.0.0:2222:2222 --name chroot chroot
 docker ps -a | grep chroot
 echo -e '\nExec into the container: docker exec -it chroot /bin/sh'
 echo 'SSH into the container: ssh -i id_rsa -p 2222 alpine@localhost'
