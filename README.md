@@ -1,4 +1,4 @@
-#DockerChroot
+#DockerJail
 
 This container acts as a secure userland jumpbox that you can NAT to port 2222 on the host.
 
