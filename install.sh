@@ -12,8 +12,10 @@ sudo iptables-save | sudo tee "/etc/iptables/iptables.${timestamp}.rules" > /dev
 sudo iptables -A INPUT -i docker0 -p tcp --dport 22 -j ACCEPT
 sudo iptables -I FORWARD -i docker0 -d 192.168.1.0/24 -j REJECT
 sudo iptables-save | sudo tee /etc/iptables/dockerchroot.rules > /dev/null 2>&1
+echo '/sbin/iptables-restore < /etc/iptables/dockerchroot.rules' | sudo tee -a /etc/rc.local 2>&1
 echo -e '\nIf you need to restore you previous iptables rules,'
-echo -e "run 'sudo iptables-restore < /etc/iptables/iptables.${timestamp}.rules'\n"
+echo -e "run 'sudo iptables-restore < /etc/iptables/iptables.${timestamp}.rules'"
+echo -e 'You will also want to remove the line from /etc/rc.local\n'
 
 # Build Docker Image
 read -p 'Enter new root password for container: ' rootpasswd
