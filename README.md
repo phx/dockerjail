@@ -31,6 +31,8 @@ This will completely lockdown the `docker0` interface, so it is not really meant
 
 This script also runs under the assumption that you are on the **192.168.1.0/24** network.  If this is not the case, please modify the `iptables` rules by referring to the same steps listed above.  I have plans to build the network into the script via argument and environment variable in the future, but as of right now, it is hard-coded.
 
+**The Docker service will be restarted during the installation process.**
+
 #### Usage:
 ```
 Usage: ./install.sh <[help | interactive | remove]>
@@ -39,3 +41,9 @@ Usage: ./install.sh <[help | interactive | remove]>
 --remove	| remove		Complete rollback of all changes made by install.sh.
 ```
 
+#### Notes:
+You can also set the passwords of the root user and the alpine user by passing
+the environment variables `$ROOTPASS` and `$USERPASS` if you do not wish them to be random.
+
+This is kind of pointless since the root user account is disabled and the alpine user can
+only log in with an SSH key, but it is an option nonetheless. 
