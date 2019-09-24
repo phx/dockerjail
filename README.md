@@ -48,7 +48,7 @@ Usage: ./install.sh <[help | interactive | remove]>
 You can also set the passwords of the root user and the alpine user by passing
 the `$ROOTPASS` and `$USERPASS` environment variables if you do not wish them to be random.
 
-Additionally, you can run `./install.sh --interactive` to be prompted for each password,
+Additionally, you can run `./install.sh interactive` to be prompted for each password,
 which will be shown in clear text.
 
 These options are kind of pointless since the root user account is disabled and the alpine user can
