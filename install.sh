@@ -21,7 +21,8 @@ if [[ -n $(echo $* | grep remove) ]]; then
   sudo rm -vf /etc/iptables/iptables.beforedockerjail.rules
   sudo rm -vf /usr/local/bin/dockerjailrules
   sudo rm -vf id_rsa id_rsa.pub
-  sudo mv -v /lib/systemd/system/docker.service.bak /lib/systemd/system/docker.service
+  sudo cp -pv /lib/systemd/system/docker.service.bak /lib/systemd/system/docker.service
+  sudo rm -vf /lib/systemd/system/docker.service.bak
   sudo systemctl daemon-reload
   sudo systemctl restart docker
   sudo docker stop jail 2>/dev/null
@@ -51,7 +52,7 @@ sudo chmod +x /usr/local/bin/dockerjailrules
 sudo cp -pv /lib/systemd/system/docker.service /lib/systemd/system/docker.service.bak
 sudo sed -i 's@containerd.sock@containerd.sock\nExecStartPost=/usr/local/bin/dockerjailrules@' /lib/systemd/system/docker.service
 sudo systemctl daemon-reload
-sudo systemctl restart docker
+sudo systemctl restart docker.service
 
 # Build Docker Image
 if [[ -z $ROOTPASS ]]; then
@@ -78,7 +79,7 @@ rm -f passwd rootpasswd
 echo -e '\nRunning container:'
 sudo docker run --restart=always -dp 2222:2222 --name jail jail
 echo 'Restarting docker...'
-sudo systemctl restart docker
+sudo systemctl restart docker.service
 if [[ $? -ne 0 ]]; then
   echo Error.
   exit
