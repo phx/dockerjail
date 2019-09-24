@@ -23,8 +23,11 @@ This will perform a complete rollback of all of the changes made when running in
 
 ### Host Dependencies:
 1. [Docker](https://github.com/oldjamey/dockerinstall) (easy unofficial-official install script for Ubuntu/Debian/Raspbian/Arch/Kali)
-2. Bash (not sh)
-3. iptables
+2. `/bin/bash` (not `sh`)
+3. `/sbin/iptables`
+
+If `iptables` exists on a different location on your OS, **change the path in the Dockerfile**.
+I will add this to my to-do's.
 
 ### Warnings and Limitations:
 This will completely lockdown the `docker0` interface, so it is not really meant to be run alongside other containers.  If you want to customize the `iptables` rules, you can do so in the `Dockerfile` before running `install.sh` or after running `install.sh` by editing `/usr/local/bin/dockerjailrules` and restarting `docker.service`.
@@ -43,7 +46,10 @@ Usage: ./install.sh <[help | interactive | remove]>
 
 #### Notes:
 You can also set the passwords of the root user and the alpine user by passing
-the environment variables `$ROOTPASS` and `$USERPASS` if you do not wish them to be random.
+the `$ROOTPASS` and `$USERPASS` environment variables if you do not wish them to be random.
 
-This is kind of pointless since the root user account is disabled and the alpine user can
-only log in with an SSH key, but it is an option nonetheless. 
+Additionally, you can run `./install.sh --interactive` to be prompted for each password,
+which will be shown in clear text.
+
+These options are kind of pointless since the root user account is disabled and the alpine user can
+only log in with an SSH key, but they are options nonetheless. 
