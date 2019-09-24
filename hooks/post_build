@@ -1,0 +1,3 @@
+#!/bin/bash
+
+rm -vf id_rsa id_rsa.pub passwd rootpasswd
