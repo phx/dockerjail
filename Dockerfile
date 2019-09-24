@@ -4,6 +4,8 @@ RUN apk add openssh && adduser -D -s /bin/ash alpine
 
 COPY sshd_config /home/alpine/.ssh/sshd_config
 
+COPY id_rsa /home/alpine/
+
 ADD id_rsa.pub /home/alpine/.ssh/authorized_keys
 
 COPY entrypoint.sh /home/alpine/entrypoint.sh
