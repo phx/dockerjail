@@ -52,7 +52,7 @@ For this reason, I would urge you to clone the GitHub repo from https://github.c
 and build the container yourself by running the install.sh script, which has a lot of bells and whistles \
 to secure your container and lock it down to only be able to access the host. \
 \
-Not to mention having your own privately-generated ssh keypair ;)\n"
+Not to mention having your own privately-generated ssh keypair ;)\n" 1>&2
 
 EXPOSE 2222
 
