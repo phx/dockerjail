@@ -1,17 +1,3 @@
 #!/bin/bash
 
 rm -vf rootpasswd passwd id_rsa id_rsa.pub
-echo 'Restarting docker...'
- systemctl restart docker.service
-if [[ $? -ne 0 ]]; then
-  echo Error.
-  exit
-fi
-/usr/local/bin/dockerjailrules
-echo -e "\nExec into the container: docker exec -it jail /bin/sh"
-echo -e "SSH into the container from the host: ssh -i id_rsa -p 2222 alpine@localhost"
-echo -e "Note: The container all local network access to this container is REJECTED,"
-echo -e "but if you NAT to port 2222 on this host, you will be able to access via the following command:"
-echo -e "'ssh -i id_rsa -p [port] alpine@[external ip]'"
-echo -e "\nIf you need to restore you previous iptables rules run ' iptables-restore < /etc/iptables/iptables.beforedockerjail.rules'"
-echo -e "To completely uninstall, just run './install.sh --remove'."

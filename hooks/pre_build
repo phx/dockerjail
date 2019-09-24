@@ -18,40 +18,6 @@
 #
 ##############################################################################
 
-show_help() {
-echo -e '
-Usage: ./install.sh <[help | interactive | remove]>
---help 		| help 		| -h	Shows this help message.
---interactive	| interactive		Allows you to set passwords (instead of random).
---remove	| remove		Complete rollback of all changes made by install.sh.
-'
-}
-
-if [[ $1 = -h ]]; then
-  show_help && exit
-elif [[ -n $(echo $* | grep help) ]]; then
-  show_help && exit
-fi
-
-if [[ -n $(echo $* | grep remove) ]]; then
-   iptables-restore 2>/dev/null < /etc/iptables/iptables.beforedockerjail.rules
-   rm -vf /etc/iptables/dockerjail.rules
-   rm -vf /etc/iptables/iptables.beforedockerjail.rules
-   rm -vf /usr/local/bin/dockerjailrules
-   rm -vf id_rsa id_rsa.pub
-   cp -pv /lib/systemd/system/docker.service.bak /lib/systemd/system/docker.service
-   rm -vf /lib/systemd/system/docker.service.bak
-   systemctl daemon-reload
-   systemctl restart docker
-   docker stop jail 2>/dev/null
-   docker rm jail 2>/dev/null
-   docker rmi jail 2>/dev/null
-  ssh-keygen -f ~/.ssh/known_hosts -R [localhost]:2222 2>/dev/null
-  ssh-keygen -f ~/.ssh/known_hosts -R [127.0.0.1]:2222 2>/dev/null
-  echo 'Removed.'
-  exit
-fi
-
 # Generate SSH Keypair and set up iptables:
 ssh-keygen -f ~/.ssh/known_hosts -R [localhost]:2222 2>/dev/null
 ssh-keygen -f ~/.ssh/known_hosts -R [127.0.0.1]:2222 2>/dev/null
@@ -59,32 +25,11 @@ ssh-keygen -q -f ./id_rsa -N '' -t rsa -b 2048
 chmod 600 id_rsa.pub
 chmod 600 id_rsa
 
-# Configure iptables to act right:
- iptables-save | tee "/etc/iptables/iptables.beforedockerjail.rules" > /dev/null 2>&1
- iptables -w -A INPUT -i docker0 -p tcp --dport 2222 -j ACCEPT
- iptables -w -I FORWARD -i docker0 -d 192.168.1.0/24 -j REJECT
- iptables-save | tee /etc/iptables/dockerjail.rules > /dev/null 2>&1
- echo -e '#!/bin/bash\n\n /sbin/iptables-restore < /etc/iptables/dockerjail.rules' | tee /usr/local/bin/dockerjailrules > /dev/null 2>&1
- chmod +x /usr/local/bin/dockerjailrules
- cp -pv /lib/systemd/system/docker.service /lib/systemd/system/docker.service.bak
- sed -i 's@containerd.sock@containerd.sock\nExecStartPost=/usr/local/bin/dockerjailrules@' /lib/systemd/system/docker.service
- systemctl daemon-reload
- systemctl restart docker.service
-
-# Build Docker Image
 if [[ -z $ROOTPASS ]]; then
-  if [[ -n $(echo $* | grep interactive) ]]; then
-    read -p 'Enter new root password for container: ' ROOTPASS
-  else
-    ROOTPASS="$(</dev/urandom tr -dc 'A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' | head -c64; echo)"
-  fi
+    ROOTPASS="$(python3 -c 'import os; print(os.urandom(64).hex())')"
 fi
 if [[ -z $USERPASS ]]; then
-  if [[ -n $(echo $* | grep interactive) ]]; then
-    read -p 'Enter new password for new alpine user: ' USERPASS
-  else
-    USERPASS="$(</dev/urandom tr -dc 'A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' | head -c64; echo)"
-  fi
+    USERPASS="$(python3 -c 'import os; print(os.urandom(64).hex())')"
 fi
 echo "root:${ROOTPASS}" > rootpasswd
 echo "alpine:${USERPASS}" > passwd
