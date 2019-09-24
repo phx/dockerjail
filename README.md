@@ -34,8 +34,8 @@ This script also runs under the assumption that you are on the **192.168.1.0/24*
 #### Usage:
 ```
 Usage: ./install.sh <[help | interactive | remove]>
---help 		    | help 		| -h	Shows this help message.
+--help		| help		| -h	Shows this help message.
 --interactive	| interactive		Allows you to set passwords (instead of random).
---remove	    | remove		    Complete rollback of all changes made by install.sh.
+--remove	| remove		Complete rollback of all changes made by install.sh.
 ```
 
