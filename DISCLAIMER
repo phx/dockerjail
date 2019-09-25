@@ -1,26 +1,42 @@
 
-To test this image, first run the container with
+To test this image, first pull the image and run the container with the following command:
 
-'docker run --rmdp 2222:2222 --name jail oldjamey/dockerjail:latest'
 
-and pull the private key from the container using
+'docker run --rm -dp 2222:2222 --name jail lphl/dockerjail:latest'
+
+
+and pull the private key from the container using the following command:
+
 
 'docker cp jail:/home/alpine/id_rsa dockerjail.pem'
 
+
 Run 'chmod 600 dockerjail.pem' to make sure permissions are secure (enough).
+
 Then 'ssh -i dockerjail.pem -p 2222 alpine@localhost' to SSH into the container.
 
+
 Pulling this public Docker image is pretty insecure because you will be sharing a
+
 private key with anyone running the same version, so your container at least could get
+
 pretty easily compromised.
 
+
 Without the iptables implementation on the host, this is mainly just an insecure container
+
 running sshd as a non-root user, and it is at the mercy of the host's password weakness.
 
+
 For this reason, I would urge you to clone the GitHub repo from https://github.com/phx/dockerjail.git
+
 and build the container yourself by running the install.sh script, which has a lot of bells and whistles
+
 to secure your container and lock it down to only be able to access the host.
 
+
 Not to mention having your own privately-generated ssh keypair ;)
+
+
 
 
