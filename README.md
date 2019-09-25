@@ -21,28 +21,24 @@ This will perform a complete rollback of all of the changes made when running in
 
 ### Host Dependencies for install.sh:
 1. [Docker](https://github.com/oldjamey/dockerinstall) (easy unofficial-official install script for Ubuntu/Debian/Raspbian/Arch/Kali)
-2. `/bin/bash` (not `sh`)
-3. `/sbin/iptables`
-
-If `iptables` exists on a different location on your OS, **change the path in the Dockerfile**.
-I will add this to my to-do's.
+2. `/bin/bash` (not `sh` -- if you want it to work with `sh`, just fork it.)
+3. `iptables`
 
 ### Warnings and Limitations for install.sh:
 This will completely lockdown the `docker0` interface, so it is not really meant to be run alongside other containers.  If you want to customize the `iptables` rules, you can do so in the `Dockerfile` before running `install.sh` or after running `install.sh` by editing `/usr/local/bin/dockerjailrules` and restarting `docker.service`.
 
-This script also runs under the assumption that you are on the **192.168.1.0/24** network.  If this is not the case, please modify the `iptables` rules by referring to the same steps listed above.  I have plans to build the network into the script via argument and environment variable in the future, but as of right now, it is hard-coded.
-
 **The Docker service will be restarted during the installation process.**
 
 #### Notes about install.sh:
-You can also set the passwords of the root user and the alpine user by passing
+You can set the passwords of the root user and the alpine user by passing
 the `$ROOTPASS` and `$USERPASS` environment variables if you do not wish them to be random.
 
-Additionally, if you can run `./install.sh interactive` to be prompted for each password,
-which will be shown in clear text.
+You can also run `./install.sh --interactive` to be prompted for each password, which will be shown in clear text.
+*This is the suggested method if you don't have `python3` installed, which is used to create the random passwords.* 
 
-These options are kind of pointless since the root user account is disabled and the alpine user can
-only log in with an SSH key, but they are options nonetheless. 
+Additionally, you can pass a custom CIDR range for your local network as the `$CIDR` environment variable,
+or you can specify it in `--interactive` mode if you do not wish `iptables` to use the default 192.168.1.0/24 network.
+
 
 #### Usage:
 ```
