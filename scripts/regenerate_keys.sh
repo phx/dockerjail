@@ -1,31 +1,31 @@
 #!/bin/sh
 
-echo -e '\ncurrent /etc/ssh/* checksums:' 
-old_host_checksums=`for i in /etc/ssh/*; do sha256sum $i; done` 
-echo "$old_host_checksums" 
-echo -e '\ncurrent ~/.ssh/* checksums:' 
-old_keypair_checksums=`for i in /home/alpine/.ssh/*; do sha256sum $i; done` 
-echo -e "$old_keypair_checksums\n" 
+echo -e '\ncurrent /etc/ssh/* checksums:'
+old_host_checksums=`for i in /etc/ssh/*; do sha256sum $i; done`
+echo "$old_host_checksums"
+echo -e '\ncurrent ~/.ssh/* checksums:'
+old_keypair_checksums=`for i in /home/alpine/.ssh/*; do sha256sum $i; done`
+echo -e "$old_keypair_checksums\n"
 
 # regenerate keys:
 rm -vf /etc/ssh/ssh_host*
-echo 
+echo
 ssh-keygen -A
-echo 
-rm -vf /home/alpine/.ssh/id_rsa /home/alpine/.ssh/id_rsa.pub /home/alpine/.ssh/known_hosts 
-ssh-keygen -q -f /home/alpine/.ssh/id_rsa -N '' -t rsa -b 2048 
-chmod 600 /home/alpine/.ssh/id_rsa.pub 
-chmod 400 /home/alpine/.ssh/id_rsa 
+echo
+rm -vf /home/alpine/.ssh/id_rsa /home/alpine/.ssh/id_rsa.pub /home/alpine/.ssh/authorized_keys
+ssh-keygen -q -f /home/alpine/.ssh/id_rsa -N '' -t rsa -b 2048
+chmod 600 /home/alpine/.ssh/id_rsa.pub
+chmod 400 /home/alpine/.ssh/id_rsa
 
 echo -e '\nnew /etc/ssh/* checksums:'
-new_host_checksums=`for i in /etc/ssh/*; do sha256sum $i; done` 
-echo "$new_host_checksums" 
-cat /home/alpine/.ssh/id_rsa.pub > /home/alpine/.ssh/known_hosts 
-echo -e '\nnew ~/.ssh/* checksums:' 
-new_keypair_checksums=`for i in /home/alpine/.ssh/*; do sha256sum $i; done` 
-echo -e "$new_keypair_checksums\n" 
-chmod 700 /home/alpine/.ssh 
-chmod 600 /home/alpine/.ssh/known_hosts
+new_host_checksums=`for i in /etc/ssh/*; do sha256sum $i; done`
+echo "$new_host_checksums"
+cat /home/alpine/.ssh/id_rsa.pub > /home/alpine/.ssh/authorized_keys
+echo -e '\nnew ~/.ssh/* checksums:'
+new_keypair_checksums=`for i in /home/alpine/.ssh/*; do sha256sum $i; done`
+echo -e "$new_keypair_checksums\n"
+chmod 700 /home/alpine/.ssh
+chmod 600 /home/alpine/.ssh/authorized_keys
 
 echo 'SSH KEY OLD/NEW CHECKSUM COMPARISON:'
 tmp=`mktemp -d`
