@@ -53,14 +53,10 @@ Usage: ./install.sh <[help | interactive | remove]>
 ```
 
 ## Non-intrusive pure Docker installation:
-***Note:*** this is not nearly as secure, as it does require, nor implement any `iptables` rules to lockdown the container to only the host.*
-
+***Note:*** *this is not nearly as secure, as it does require, nor implement any `iptables` rules to lockdown the container to only the host.*
 *The container will have SSH access to the host, as well as the rest of the entire local network.*
-
 *If you NAT, then this is basically the equivalent of just opening up SSH to the world, except locking it down with key-based access.*
-
 *Not entirely insecure, yet not entirely recommended for external access from the Internet.*
-
 *You would probably be better off running sshd with key-based access on the host and installing `fail2ban` instead.*
 
 1. `docker run --restart=always -dp 2222:2222 lphxl/dockerjail:latest`
