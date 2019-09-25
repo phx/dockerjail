@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ssh-keygen -A &&\
 rm -vf /home/alpine/.ssh/id_rsa /home/alpine/.ssh/id_rsa.pub /home/alpine/.ssh/known_hosts&&\
