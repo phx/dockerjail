@@ -74,7 +74,7 @@ sudo iptables-save | sudo tee "/etc/iptables/iptables.beforedockerjail.rules" > 
 sudo iptables -w -A INPUT -i docker0 -p tcp --dport 2222 -j ACCEPT
 sudo iptables -w -I FORWARD -i docker0 -d "${CIDR}" -j REJECT
 sudo iptables-save | sudo tee /etc/iptables/dockerjail.rules > /dev/null 2>&1
-echo -e '#!/bin/sh\n\nsudo ${iptables_restore} < /etc/iptables/dockerjail.rules' | sudo tee /usr/local/bin/dockerjailrules > /dev/null 2>&1
+echo -e "#!/bin/sh\n\nsudo ${iptables_restore} < /etc/iptables/dockerjail.rules" | sudo tee /usr/local/bin/dockerjailrules > /dev/null 2>&1
 sudo chmod +x /usr/local/bin/dockerjailrules
 sudo cp -pv /lib/systemd/system/docker.service /lib/systemd/system/docker.service.bak
 sudo sed -i 's@containerd.sock@containerd.sock\nExecStartPost=/usr/local/bin/dockerjailrules@' /lib/systemd/system/docker.service
