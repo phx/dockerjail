@@ -4,11 +4,7 @@ RUN apk add openssh && adduser -D -s /bin/ash alpine
 
 COPY sshd_config /home/alpine/.ssh/sshd_config
 
-COPY id_rsa /home/alpine/
-
-ADD id_rsa.pub /home/alpine/.ssh/authorized_keys
-
-COPY entrypoint.sh /home/alpine/entrypoint.sh
+COPY scripts/entrypoint.sh /home/alpine/entrypoint.sh
 
 COPY passwd /home/alpine/passwd
 
@@ -21,19 +17,15 @@ RUN cat /root/passwd | chpasswd &&\
     rm /home/alpine/passwd &&\
     chown -R alpine:alpine /home/alpine &&\
     chmod +x /home/alpine/entrypoint.sh &&\
-    chmod 700 /home/alpine/.ssh &&\
-    chmod 600 /home/alpine/.ssh/authorized_keys &&\ 
     echo "export VISIBLE=now" >> /etc/profile &&\
     ssh-keygen -A &&\
     chown alpine:alpine /etc/ssh/ssh_host_*
 
 USER alpine
 
-RUN ssh-keygen -q -f /home/alpine/.ssh/id_rsa -N '' -t rsa -b 2048 &&\
-    chmod 600 /home/alpine/.ssh/id_rsa.pub &&\
-    chmod 400 /home/alpine/.ssh/id_rsa
-
 COPY DISCLAIMER /home/alpine/
+
+COPY scripts/regenerate_keys.sh /home/alpine/regenerate_keys.sh
 
 RUN cat /home/alpine/DISCLAIMER
 
