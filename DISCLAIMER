@@ -1,8 +1,9 @@
+IGNORE THIS FOR NOW (currently updating):
 
 To test this image, first pull the image and run the container with the following command:
 
 
-'docker run --rm -dp 2222:2222 --name jail lphl/dockerjail:latest'
+'docker run --restart=always --rm -dp 2222:2222 --name dockerjail lphl/dockerjail:latest'
 
 
 and pull the private key from the container using the following command:
@@ -36,7 +37,5 @@ to secure your container and lock it down to only be able to access the host.
 
 
 Not to mention having your own privately-generated ssh keypair ;)
-
-
 
 

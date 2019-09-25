@@ -1,30 +1,5 @@
 #!/bin/bash
 
-##############################################################################
-# Copyright (C) 2019  phx
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published
-#    by the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-##############################################################################
-
-# Generate SSH Keypair and set up iptables:
-ssh-keygen -f ~/.ssh/known_hosts -R [localhost]:2222 2>/dev/null
-ssh-keygen -f ~/.ssh/known_hosts -R [127.0.0.1]:2222 2>/dev/null
-ssh-keygen -q -f ./id_rsa -N '' -t rsa -b 2048
-chmod 600 id_rsa.pub
-chmod 600 id_rsa
-
 if [[ -z $ROOTPASS ]]; then
     ROOTPASS="$(python3 -c 'import os; print(os.urandom(64).hex())')"
 fi
