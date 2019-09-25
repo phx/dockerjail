@@ -34,10 +34,10 @@ You can set the passwords of the root user and the alpine user by passing
 the `$ROOTPASS` and `$USERPASS` environment variables if you do not wish them to be random.
 
 You can also run `./install.sh --interactive` to be prompted for each password, which will be shown in clear text.
-*This is the suggested method if you don't have `python3` installed, which is used to create the random passwords.* 
+This is the suggested method if you don't have `python3` installed, which is used to create the random passwords.
 
 Additionally, you can pass a custom CIDR range for your local network as the `$CIDR` environment variable,
-or you can specify it in `--interactive` mode if you do not wish `iptables` to use the default 192.168.1.0/24 network.
+or you can specify it in `--interactive` mode if you don't want `iptables` to use the default 192.168.1.0/24 network.
 
 
 #### Usage:
