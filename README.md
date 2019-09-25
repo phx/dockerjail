@@ -54,7 +54,7 @@ Not entirely insecure, yet not entirely recommended for external access from the
 You would probably be better off running sshd with key-based access on the host and installing `fail2ban` instead.*
 
 1. `docker run --restart=always -dp 2222:2222 lphxl/dockerjail:latest
-2. `docker exec -it dockerjail /bin/sh`
+2. `docker exec -it dockerjail sh`
 3. `/home/alpine/regnerate_keys.sh`
 4. `Ctrl-P+Q`
 5. `docker cp dockerjail:/home/alpine/.ssh/id_rsa dockerjail.pem && chmod 400 dockerjail.pem`
@@ -62,7 +62,7 @@ You would probably be better off running sshd with key-based access on the host 
 ### Alternatively, you can build the image yourself by cloning the dev branch:
 1. `git clone --single-branch --branch dev https://github.com/phx/dockerjail.git`
 2. `cd dockerjail && docker build -t dockerjail .`
-3. `docker exec -it dockerjail /bin/sh`
+3. `docker exec -it dockerjail sh`
 4. `/home/alpine/regnerate_keys.sh`
 5. `Ctrl-P+Q`
 6. `docker cp dockerjail:/home/alpine/.ssh/id_rsa dockerjail.pem && chmod 400 dockerjail.pem`

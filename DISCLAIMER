@@ -10,7 +10,7 @@ To run, first pull the image and run the container with the following command:
 Then, exec into the container with the following command:
 
 
-'docker exec -it dockerjail /bin/sh'
+'docker exec -it dockerjail sh'
 
 
 Once inside the container, run the following command:
