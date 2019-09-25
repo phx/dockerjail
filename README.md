@@ -53,7 +53,7 @@ Usage: ./install.sh <[help | interactive | remove]>
 ```
 
 ## Non-intrusive pure Docker installation:
-*Note: this is not nearly as secure, as it does require, nor implement any `iptables` rules to lockdown the container to only the host.*
+***Note:*** this is not nearly as secure, as it does require, nor implement any `iptables` rules to lockdown the container to only the host.*
 
 *The container will have SSH access to the host, as well as the rest of the entire local network.*
 
