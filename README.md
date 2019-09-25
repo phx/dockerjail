@@ -68,8 +68,9 @@ Usage: ./install.sh <[help | interactive | remove]>
 ### Alternatively, you can build the image yourself by cloning the dev branch:
 1. `git clone --single-branch --branch dev https://github.com/phx/dockerjail.git`
 2. `cd dockerjail && docker build -t dockerjail .`
-3. `docker exec -it dockerjail sh`
-4. `/home/alpine/regnerate_keys.sh`
-5. `exit`
-6. `docker cp dockerjail:/home/alpine/.ssh/id_rsa dockerjail.pem && chmod 400 dockerjail.pem`
+3. `docker run -dp 2222:2222 --name dockerjail dockerjail`
+4. `docker exec -it dockerjail sh`
+5. `/home/alpine/regnerate_keys.sh`
+6. `exit`
+7. `docker cp dockerjail:/home/alpine/.ssh/id_rsa dockerjail.pem && chmod 400 dockerjail.pem`
 
