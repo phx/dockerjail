@@ -1,41 +1,57 @@
-IGNORE THIS FOR NOW (currently updating):
-
-To test this image, first pull the image and run the container with the following command:
+IMPORTANT INSTRUCTIONS:
 
 
-'docker run --restart=always --rm -dp 2222:2222 --name dockerjail lphl/dockerjail:latest'
+To run, first pull the image and run the container with the following command:
 
 
-and pull the private key from the container using the following command:
+'docker run --restart=always -dp 2222:2222 --name dockerjail lphl/dockerjail:latest'
 
 
-'docker cp jail:/home/alpine/id_rsa dockerjail.pem'
+Then, exec into the container with the following command:
 
 
-Run 'chmod 600 dockerjail.pem' to make sure permissions are secure (enough).
-
-Then 'ssh -i dockerjail.pem -p 2222 alpine@localhost' to SSH into the container.
+'docker exec -it dockerjail /bin/sh'
 
 
-Pulling this public Docker image is pretty insecure because you will be sharing a
-
-private key with anyone running the same version, so your container at least could get
-
-pretty easily compromised.
+Once inside the container, run the following command:
 
 
-Without the iptables implementation on the host, this is mainly just an insecure container
+'/home/alpine/regenerate_keys.sh'
 
-running sshd as a non-root user, and it is at the mercy of the host's password weakness.
+
+This is to ensure that you you are not an idiot running the same SSH host keys
+
+and SSH private key as everyone else who pulls this same image.
+
+
+Exit out of the container with 'Ctrl-P+Q' and copy the private key file to the host using
+
+the following command:
+
+
+'docker cp dockerjail:/home/alpine/.ssh/id_rsa dockerjail.pem'
+
+
+Then 'chmod 400 dockerjail.pem', and you are good to go.
+
+You can then use 'ssh -i dockerjail.pem -p 2222 alpine@localhost' to SSH into the container.
+
+
+If you are just needing a non-root sshd container, then this should be adequate for your purposes.
+
+However, without the iptables implementation on the host, this is mainly just a somewhat-secure container
+
+running sshd as a non-root user, and it will still have access to your entire local network,
+
+albeit with limited capabilities of the alpine user, but SSH is available.
 
 
 For this reason, I would urge you to clone the GitHub repo from https://github.com/phx/dockerjail.git
 
-and build the container yourself by running the install.sh script, which has a lot of bells and whistles
+and build the container yourself by running the install.sh script, which is a bit more intrusive,
 
-to secure your container and lock it down to only be able to access the host.
+but takes the extra steps to lock down the container to ONLY the host via iptables in order to
 
-
-Not to mention having your own privately-generated ssh keypair ;)
+make this implementation as secure as possible.
 
 
