@@ -56,7 +56,7 @@ You would probably be better off running sshd with key-based access on the host 
 1. `docker run --restart=always -dp 2222:2222 lphxl/dockerjail:latest
 2. `docker exec -it dockerjail sh`
 3. `/home/alpine/regnerate_keys.sh`
-4. `Ctrl-P+Q`
+4. `exit`
 5. `docker cp dockerjail:/home/alpine/.ssh/id_rsa dockerjail.pem && chmod 400 dockerjail.pem`
 
 ### Alternatively, you can build the image yourself by cloning the dev branch:
@@ -64,7 +64,7 @@ You would probably be better off running sshd with key-based access on the host 
 2. `cd dockerjail && docker build -t dockerjail .`
 3. `docker exec -it dockerjail sh`
 4. `/home/alpine/regnerate_keys.sh`
-5. `Ctrl-P+Q`
+5. `exit`
 6. `docker cp dockerjail:/home/alpine/.ssh/id_rsa dockerjail.pem && chmod 400 dockerjail.pem`
 
 #### Notes:

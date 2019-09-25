@@ -24,9 +24,7 @@ This is to ensure that you you are not an idiot running the same SSH host keys
 and SSH private key as everyone else who pulls this same image.
 
 
-Exit out of the container with 'Ctrl-P+Q' and copy the private key file to the host using
-
-the following command:
+Exit out of the container, and copy the private key file to the host using the following command:
 
 
 'docker cp dockerjail:/home/alpine/.ssh/id_rsa dockerjail.pem'
@@ -35,6 +33,10 @@ the following command:
 Then 'chmod 400 dockerjail.pem', and you are good to go.
 
 You can then use 'ssh -i dockerjail.pem -p 2222 alpine@localhost' to SSH into the container.
+
+Before you start troubleshooting if you get denied, try accessing over the local network,
+
+or externally if you have a NAT set up to point to port 2222 on the host.
 
 
 If you are just needing a non-root sshd container, then this should be adequate for your purposes.
