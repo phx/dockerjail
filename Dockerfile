@@ -21,7 +21,7 @@ RUN cat /root/passwd | chpasswd &&\
     chmod +x /home/alpine/entrypoint.sh &&\
     echo "export VISIBLE=now" >> /etc/profile &&\
     ssh-keygen -A &&\
-    chown alpine:alpine /etc/ssh/ssh_host_*
+    chown -R alpine:alpine /etc/ssh
 
 USER alpine
 
