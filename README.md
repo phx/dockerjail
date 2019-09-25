@@ -34,6 +34,16 @@ This script also runs under the assumption that you are on the **192.168.1.0/24*
 
 **The Docker service will be restarted during the installation process.**
 
+#### Notes about install.sh:
+You can also set the passwords of the root user and the alpine user by passing
+the `$ROOTPASS` and `$USERPASS` environment variables if you do not wish them to be random.
+
+Additionally, if you can run `./install.sh interactive` to be prompted for each password,
+which will be shown in clear text.
+
+These options are kind of pointless since the root user account is disabled and the alpine user can
+only log in with an SSH key, but they are options nonetheless. 
+
 #### Usage:
 ```
 Usage: ./install.sh <[help | interactive | remove]>
@@ -42,18 +52,18 @@ Usage: ./install.sh <[help | interactive | remove]>
 --remove        | remove                Complete rollback of all changes made by install.sh.
 ```
 
-## Non-intrusive pure Docker installation with [Docker][https://github.com/phx/dockerinstall] as only dependency:
-*Note: this is not nearly as secure, as it does require, nor implement any `iptables` rules to lockdown the container to only the host.
+## Non-intrusive pure Docker installation:
+*Note: this is not nearly as secure, as it does require, nor implement any `iptables` rules to lockdown the container to only the host.*
 
-The container will have SSH access to the host, as well as the rest of the entire local network.
+*The container will have SSH access to the host, as well as the rest of the entire local network.*
 
-If you NAT, then this is basically the equivalent of just opening up SSH to the world, except locking it down with key-based access.
+*If you NAT, then this is basically the equivalent of just opening up SSH to the world, except locking it down with key-based access.*
 
-Not entirely insecure, yet not entirely recommended for external access from the Internet.
+*Not entirely insecure, yet not entirely recommended for external access from the Internet.*
 
-You would probably be better off running sshd with key-based access on the host and installing `fail2ban` instead.*
+*You would probably be better off running sshd with key-based access on the host and installing `fail2ban` instead.*
 
-1. `docker run --restart=always -dp 2222:2222 lphxl/dockerjail:latest
+1. `docker run --restart=always -dp 2222:2222 lphxl/dockerjail:latest`
 2. `docker exec -it dockerjail sh`
 3. `/home/alpine/regnerate_keys.sh`
 4. `exit`
@@ -66,14 +76,4 @@ You would probably be better off running sshd with key-based access on the host 
 4. `/home/alpine/regnerate_keys.sh`
 5. `exit`
 6. `docker cp dockerjail:/home/alpine/.ssh/id_rsa dockerjail.pem && chmod 400 dockerjail.pem`
-
-#### Notes:
-You can also set the passwords of the root user and the alpine user by passing
-the `$ROOTPASS` and `$USERPASS` environment variables if you do not wish them to be random.
-
-Additionally, you can run `./install.sh interactive` to be prompted for each password,
-which will be shown in clear text.
-
-These options are kind of pointless since the root user account is disabled and the alpine user can
-only log in with an SSH key, but they are options nonetheless. 
 
