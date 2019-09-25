@@ -6,6 +6,8 @@ COPY sshd_config /home/alpine/.ssh/sshd_config
 
 COPY scripts/entrypoint.sh /home/alpine/entrypoint.sh
 
+COPY scripts/regenerate_keys.sh /home/alpine/regenerate_keys.sh
+
 COPY passwd /home/alpine/passwd
 
 COPY rootpasswd /root/passwd
@@ -24,8 +26,6 @@ RUN cat /root/passwd | chpasswd &&\
 USER alpine
 
 COPY DISCLAIMER /home/alpine/
-
-COPY scripts/regenerate_keys.sh /home/alpine/regenerate_keys.sh
 
 RUN cat /home/alpine/DISCLAIMER
 
