@@ -10,13 +10,13 @@ Container uses key-based authentication and will only have password-based SSH ac
 
 ## Install
 
-1. `git clone https://github.com/lphl/dockerjail.git`
+1. `git clone https://github.com/phx/dockerjail.git`
 2. `cd dockerjail && ./install.sh`
 
 (sudo will be required for some commands in the script).
 
 ## Uninstall
-1. `git clone https://github.com/lphxl/dockerjail.git` (if you already deleted it).
+1. `git clone https://github.com/phx/dockerjail.git` (if you already deleted it).
 2. `cd dockerjail && ./install.sh remove`
 
 This will perform a complete rollback of all of the changes made when running install.sh
