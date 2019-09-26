@@ -1,6 +1,6 @@
 # DockerJail
 
-This container acts as a secure jumpbox running sshd as a non-root user.
+A secure jumpbox running sshd as a non-root user with key-based authentication.
 
 NAT port 2222 on the host to SSH with the private key generated after running install.sh.
 
