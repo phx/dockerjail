@@ -1,4 +1,4 @@
-(! dockerjail)[./dockerjail.png?raw=true]
+![dockerjail](./dockerjail.png?raw=true)
 
 # DockerJail
 
