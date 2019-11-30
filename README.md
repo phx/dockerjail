@@ -1,3 +1,5 @@
+[! dockerjail](./dockerjail.png?raw=true)
+
 # DockerJail
 
 A secure jumpbox running sshd as a non-root user with key-based authentication.
